@@ -123,7 +123,8 @@ Before submitting your code, be sure to launch `black` to reformat your PR.
 
 `tox` is used to execute the following test matrix:
 * `lint`: launches `flake8` and `black --check` to be sure the code honors our style guideline
-* `py{35,36,37,38}`: launches `py.test` to execute all tests under Python 3.5, 3.6 and 3.7.
+* `py{35,36,37,38}`: launches `py.test` to execute all tests under Python 3.5, 3.6,
+  3.7 and 3.8.
 
 To launch the full test matrix, just:
 
