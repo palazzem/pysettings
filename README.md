@@ -1,5 +1,6 @@
 # pysettings
 
+[![PyPI version](https://badge.fury.io/py/pysettings-validator.svg)](https://badge.fury.io/py/pysettings-validator)
 [![CircleCI](https://circleci.com/gh/palazzem/pysettings/tree/master.svg?style=svg)](https://circleci.com/gh/palazzem/pysettings/tree/master)
 [![codecov](https://codecov.io/gh/palazzem/pysettings/branch/master/graph/badge.svg)](https://codecov.io/gh/palazzem/pysettings)
 
