@@ -22,7 +22,7 @@ logic. Available features are:
 
 ## Requirements
 
-* Python 3.5+
+* Python 3.7+
 
 ## Getting Started
 
