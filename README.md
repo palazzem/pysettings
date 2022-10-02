@@ -1,8 +1,8 @@
 # pysettings
 
 [![PyPI version](https://badge.fury.io/py/pysettings-validator.svg)](https://badge.fury.io/py/pysettings-validator)
-[![CircleCI](https://circleci.com/gh/palazzem/pysettings/tree/master.svg?style=svg)](https://circleci.com/gh/palazzem/pysettings/tree/master)
-[![codecov](https://codecov.io/gh/palazzem/pysettings/branch/master/graph/badge.svg)](https://codecov.io/gh/palazzem/pysettings)
+[![Linting](https://github.com/palazzem/pysettings/actions/workflows/linting.yaml/badge.svg?branch=master)](https://github.com/palazzem/pysettings/actions/workflows/linting.yaml)
+[![Testing](https://github.com/palazzem/pysettings/actions/workflows/testing.yaml/badge.svg?branch=master)](https://github.com/palazzem/pysettings/actions/workflows/testing.yaml)
 
 Pysettings is a Python package to store your application settings. Compared to some
 settings managers, this package has been inspired by [Django Rest Frameworks validators][1]
