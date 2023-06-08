@@ -74,12 +74,18 @@ class BaseSettings(object):
         find the attribute. In that case it means the given attribute is not
         a configuration option that was defined as class attributes.
 
+        Internal attributes are still accessible.
+
         Args:
             name: the attribute name to retrieve.
         Raise:
             OptionNotAvailable: the configuration option is not present.
         """
-        raise OptionNotAvailable("the option is not present in the current config")
+        if name.startswith("__") and name.endswith("__"):
+            # Providing access to internal attributes is required for pickle and copy
+            return object.__getattribute__(self, name)
+        else:
+            raise OptionNotAvailable("the option is not present in the current config")
 
     def _get_option(self, name):
         """Retrieve the Option instance instead of proxying the call to retrieve
