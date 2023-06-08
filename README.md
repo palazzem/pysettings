@@ -105,6 +105,54 @@ settings.description = "Dry run mode!"
 settings.is_valid()  # raises ConfigNotValid exception
 ```
 
+### Test your Settings (pytest)
+
+If you need to change some of your settings during tests, you can use the following snippet
+to restore the previous settings after each test:
+
+```python
+# tests/fixtures/settings.py
+from pysettings.base import BaseSettings
+from pysettings.options import Option
+from pysettings.validators import is_https_url
+
+# Class definition
+class TestSettings(BaseSettings):
+    url = Option(validators=[is_https_url])
+    description = Option()
+
+# Use settings in your application
+settings = TestSettings()
+settings.url = "https://example.com"
+settings.description = "A shiny Website!"
+settings.is_valid()
+
+# tests/conftest.py
+import copy
+import pytest
+
+from .fixtures import settings as config
+
+
+@pytest.fixture
+def settings():
+    previous_config = copy.deepcopy(config.settings)
+    yield config.settings
+    config.settings = previous_config
+
+# tests/test_settings.py
+def test_settings_changes_1(settings):
+    assert settings.description == "A shiny Website!"
+    settings.description = "Test 1"
+    assert settings.description == "Test 1"
+
+
+def test_settings_changes_2(settings):
+    assert settings.description == "A shiny Website!"
+    settings.description = "Test 2"
+    assert settings.description == "Test 2"
+```
+
 ## Development
 
 We accept external contributions even though the project is mostly designed for personal

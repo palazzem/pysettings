@@ -1,4 +1,5 @@
 import pytest
+import copy
 
 from pysettings.base import BaseSettings
 from pysettings.options import Option
@@ -39,6 +40,18 @@ def test_config_get_value():
     option = config._get_option("home")
     option.value = "test"
     assert config.home == "test"
+
+
+def test_config_instance():
+    """Should return a new instance of the config and not use the Class options"""
+
+    class SettingsTest(BaseSettings):
+        home = Option(default="klass")
+
+    config = SettingsTest()
+    config.home = "instance"
+    assert SettingsTest.home.value == "klass"
+    assert config.home == "instance"
 
 
 def test_config_set_value_not_available():
@@ -132,3 +145,33 @@ def test_config_is_not_valid_exception(mocker):
 
     with pytest.raises(ConfigNotValid):
         assert config.is_valid()
+
+
+def test_config_deepcopy():
+    """Should clone the configuration when deepcopy() is called"""
+
+    class SettingsTest(BaseSettings):
+        home = Option(default="original")
+
+    config = SettingsTest()
+    clone_config = copy.deepcopy(config)
+    clone_config.home = "clone"
+    # Should be different Settings
+    assert config != clone_config
+    assert config.home == "original"
+    assert clone_config.home == "clone"
+
+
+def test_config_copy():
+    """Should clone the configuration when copy() is called"""
+
+    class SettingsTest(BaseSettings):
+        home = Option(default="original")
+
+    config = SettingsTest()
+    clone_config = copy.copy(config)
+    clone_config.home = "shallow-copy"
+    # Should be different Settings but same Option (shallow copy)
+    assert config != clone_config
+    assert config.home == "shallow-copy"
+    assert clone_config.home == "shallow-copy"
