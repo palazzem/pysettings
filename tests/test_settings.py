@@ -41,6 +41,18 @@ def test_config_get_value():
     assert config.home == "test"
 
 
+def test_config_instance():
+    """Should return a new instance of the config and not use the Class options"""
+
+    class SettingsTest(BaseSettings):
+        home = Option(default="klass")
+
+    config = SettingsTest()
+    config.home = "instance"
+    assert SettingsTest.home.value == "klass"
+    assert config.home == "instance"
+
+
 def test_config_set_value_not_available():
     """Should raise an exception if the option is not present"""
 

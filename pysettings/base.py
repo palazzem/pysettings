@@ -1,3 +1,5 @@
+import copy
+
 from .options import Option
 from .exceptions import OptionNotAvailable, ConfigNotValid
 
@@ -25,7 +27,11 @@ class BaseSettings(object):
         for attr, value in self.__class__.__dict__.items():
             option = self._get_option(attr)
             if isinstance(option, Option):
+                # Store the attribute name in the options list and copy the
+                # Option object to avoid sharing the same instance across
+                # settings instances
                 self._options.append(attr)
+                object.__setattr__(self, attr, copy.deepcopy(option))
 
     def __setattr__(self, name, value):
         """Config attributes must be of type Option. This setattr() ensures that the
