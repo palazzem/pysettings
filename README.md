@@ -111,46 +111,26 @@ If you need to change some of your settings during tests, you can use the follow
 to restore the previous settings after each test:
 
 ```python
-# tests/fixtures/settings.py
-from pysettings.base import BaseSettings
-from pysettings.options import Option
-from pysettings.validators import is_https_url
-
-# Class definition
-class TestSettings(BaseSettings):
-    url = Option(validators=[is_https_url])
-    description = Option()
-
-# Use settings in your application
-settings = TestSettings()
-settings.url = "https://example.com"
-settings.description = "A shiny Website!"
-settings.is_valid()
-
 # tests/conftest.py
-import copy
-import pytest
-
-from .fixtures import settings as config
+from app.config import settings as app_settings   # Import your global settings
+from pysettings.test import SettingsWrapper       # Import settings wrapper
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def settings():
-    previous_config = copy.deepcopy(config.settings)
-    yield config.settings
-    config.settings = previous_config
+    wrapper = SettingsWrapper(app_settings)
+    # (Optional) Include test overrides
+    wrapper.DATABASE_URL = "sqlite://"
+    yield wrapper
+    # Restore original settings
+    wrapper.finalize()
 
 # tests/test_settings.py
-def test_settings_changes_1(settings):
-    assert settings.description == "A shiny Website!"
-    settings.description = "Test 1"
-    assert settings.description == "Test 1"
+def test_settings(settings):
+    # Change settings for this test only
+    settings.BATCH_SIZE = 100
 
-
-def test_settings_changes_2(settings):
-    assert settings.description == "A shiny Website!"
-    settings.description = "Test 2"
-    assert settings.description == "Test 2"
+    # ... Test your code ...
 ```
 
 ## Development
