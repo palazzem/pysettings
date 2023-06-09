@@ -4,13 +4,6 @@ from pysettings.validators import is_https_url
 
 
 # Class definition
-class TestSettings(BaseSettings):
-    url = Option(validators=[is_https_url])
-    description = Option()
-
-
-# Use settings in your application
-settings = TestSettings()
-settings.url = "https://example.com"
-settings.description = "A shiny Website!"
-settings.is_valid()
+class TestValidSettings(BaseSettings):
+    url = Option(default="https://example.com", validators=[is_https_url])
+    description = Option(default="A shiny Website!")
